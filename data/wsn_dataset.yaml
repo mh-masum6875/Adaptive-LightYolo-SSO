@@ -1,0 +1,30 @@
+# WSN YOLO Dataset Configuration
+# Path to dataset (relative to yolov7_maidul folder)
+path: Dataset  # Root dataset directory
+
+# Train/Val/Test splits
+train: images/train  # Train images (relative to 'path')
+val: images/val      # Val images (relative to 'path')  
+test: images/test    # Test images (relative to 'path') (optional)
+
+# Classes
+nc: 2  # Number of classes
+names: ['normal', 'anomaly']  # Class names
+
+# Dataset info
+description: "WSN YOLO Dataset - Latest 5thAugLatestData Processing"
+version: "1.0"
+created_from: "5thAugLatestData"
+
+# Dataset statistics
+total_images: 31067
+train_images: 24853
+val_images: 3105  
+test_images: 3109
+
+# Class distribution
+normal_images: 10438
+anomaly_images: 20629
+
+# Training optimized for WSN constraints
+download: # Not applicable for local dataset
