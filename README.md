@@ -1,15 +1,15 @@
-# Early Exit WSN-YOLO: Adaptive and Energy-Efficient Anomaly Detection in Wireless Sensor Networks
+# Adaptive LightYolo-SSO: Energy-Efficient Anomaly Detection in Wireless Sensor Networks via Dynamic Early Exit Inference
 
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-1.12+-ee4c2c.svg)](https://pytorch.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-An adaptive inference framework that extends the SSO-optimized [WSN-YOLO](https://github.com/mh-masum6875/-LightYolo-SSO) with dynamic early exit capability for energy-efficient anomaly detection in resource-constrained Wireless Sensor Networks. Based on [YOLOv7](https://github.com/WongKinYiu/yolov7).
+An adaptive inference framework that extends the SSO-optimized [LightYolo-SSO](https://github.com/mh-masum6875/-LightYolo-SSO) with dynamic early exit capability for energy-efficient anomaly detection in resource-constrained Wireless Sensor Networks. Based on [YOLOv7](https://github.com/WongKinYiu/yolov7).
 
 ## Key Achievements
 
-| Metric | Early Exit WSN-YOLO | WSN-YOLO (Baseline) | Improvement |
-|--------|---------------------|---------------------|-------------|
+| Metric | Adaptive LightYolo-SSO | LightYolo-SSO (Baseline) | Improvement |
+|--------|------------------------|--------------------------|-------------|
 | Parameters | 81,670 | 67,840 | +20.4% overhead |
 | Validation Accuracy | 99.58% | 99.68% | -0.10% (negligible) |
 | Average Energy | 0.619 mJ | 1.90 mJ | **67.4% reduction** |
@@ -45,7 +45,7 @@ Input Image (256×256)
 ## Project Structure
 
 ```
-Early-Exit-WSN-YOLO/
+Adaptive-LightYolo-SSO/
 ├── cfg/                                # Model configurations
 │   └── training/
 │       └── yolo_wsn_sso_optimized.yaml # SSO-optimized backbone
@@ -56,8 +56,11 @@ Early-Exit-WSN-YOLO/
 │   ├── yolo.py                        # EarlyExitModel class
 │   └── early_exit.py                  # Early exit components
 ├── utils/                              # Utility functions
+├── SSO/                                # SSO optimization code
 ├── runs/                               # Training outputs
 │   └── train/EarlyExit_WSN_YOLO/      
+├── scripts/                            # Additional scripts
+├── tools/                              # Analysis tools
 ├── train_early_exit.py                 # Training script
 ├── test_early_exit.py                  # Validation script
 ├── detect_early_exit.py                # Inference script
@@ -68,8 +71,8 @@ Early-Exit-WSN-YOLO/
 ## Installation
 
 ```bash
-git clone https://github.com/mh-masum6875/Early-Exit-WSN-YOLO.git
-cd Early-Exit-WSN-YOLO
+git clone https://github.com/mh-masum6875/Adaptive-LightYolo-SSO.git
+cd Adaptive-LightYolo-SSO
 pip install -r requirements.txt
 ```
 
@@ -160,7 +163,7 @@ Energy Savings = (1.90 - 0.619) / 1.90 = 67.4%
 This project builds upon:
 
 1. **Our Review Paper:** [Toward Efficient and Accurate Anomaly Detection in Wireless Sensor Networks: A Review](https://ieeexplore.ieee.org/document/11218714) - IEEE Sensors Journal, 2025
-2. **Our WSN-YOLO:** [WSN-YOLO + SSO](https://github.com/mh-masum6875/-LightYolo-SSO) - 98.91% parameter reduction
+2. **Our LightYolo-SSO:** [LightYolo-SSO](https://github.com/mh-masum6875/-LightYolo-SSO) - 98.91% parameter reduction
 3. **YOLOv7:** [WongKinYiu/yolov7](https://github.com/WongKinYiu/yolov7)
 
 ## Citation
