@@ -1,34 +1,30 @@
-# Hyperparameters for WSN YOLO Training
-# Optimized for ultra-lightweight models and WSN deployment
-
-lr0: 0.01  # initial learning rate (SGD=1E-2, Adam=1E-3)
-lrf: 0.1  # final OneCycleLR learning rate (lr0 * lrf)
-momentum: 0.937  # SGD momentum/Adam beta1
-weight_decay: 0.0005  # optimizer weight decay 5e-4
-warmup_epochs: 3.0  # warmup epochs (fractions ok)
-warmup_momentum: 0.8  # warmup initial momentum
-warmup_bias_lr: 0.1  # warmup initial bias lr
-box: 0.5  # box loss gain (INCREASED for better localization)
-cls: 0.5  # cls loss gain (scale with pixels)
-cls_pw: 1.0  # cls BCELoss positive_weight  
-obj: 1.0  # obj loss gain (scale with pixels)
-obj_pw: 1.0  # obj BCELoss positive_weight
-iou_t: 0.25  # IoU training threshold (slightly higher)
-anchor_t: 4.0  # anchor-multiple threshold
-# anchors: 3  # anchors per output layer (0 to ignore)
-fl_gamma: 0.0  # focal loss gamma (efficientDet default gamma=1.5)
-hsv_h: 0.015  # image HSV-Hue augmentation (fraction)
-hsv_s: 0.7  # image HSV-Saturation augmentation (fraction)
-hsv_v: 0.4  # image HSV-Value augmentation (fraction)
-degrees: 0.0  # image rotation (+/- deg)
-translate: 0.1  # image translation (+/- fraction)
-scale: 0.9  # image scale (+/- gain)
-shear: 0.0  # image shear (+/- deg)
-perspective: 0.0  # image perspective (+/- fraction), range 0-0.001
-flipud: 0.0  # image flip up-down (probability)
-fliplr: 0.5  # image flip left-right (probability)
-mosaic: 0.5  # image mosaic (probability) - re-enabled for better learning
-mixup: 0.1  # image mixup (probability) - light augmentation for generalization
-copy_paste: 0.0  # segment copy-paste (probability) - disabled for WSN
-paste_in: 0.0  # image paste in (probability) - disabled for WSN
-loss_ota: 1  # use ComputeLossOTA, standard setting
+lr0: 0.01
+lrf: 0.01
+momentum: 0.937
+weight_decay: 0.0005
+warmup_epochs: 3.0
+warmup_momentum: 0.8
+warmup_bias_lr: 0.1
+box: 0.08
+cls: 0.4
+cls_pw: 1.0
+obj: 0.8
+obj_pw: 1.0
+iou_t: 0.22
+anchor_t: 4.0
+fl_gamma: 0.0
+hsv_h: 0.01
+hsv_s: 0.6
+hsv_v: 0.35
+degrees: 0.0
+translate: 0.08
+scale: 0.6
+shear: 0.0
+perspective: 0.0
+flipud: 0.0
+fliplr: 0.4
+mosaic: 0.8
+mixup: 0.15
+copy_paste: 0.0
+paste_in: 0.02
+loss_ota: 1
