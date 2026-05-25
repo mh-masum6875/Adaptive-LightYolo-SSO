@@ -1,0 +1,13 @@
+batch_size: 16
+cfg: cfg/training/wsn_yolo_paper2.yaml
+data: data/wsn_dataset.yaml
+epochs: 150
+exit1_layer: 14
+exit1_threshold: 0.9
+exit2_layer: 21
+exit2_threshold: 0.85
+img_size: 256
+init_weights: runs/train/Updated_wsn_sso_transfer/weights/best.pt
+lr: 0.001
+save_dir: runs/EarlyExit_PaperB_23rdMay2026
+workers: 4
