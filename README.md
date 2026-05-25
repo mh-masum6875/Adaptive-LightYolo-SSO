@@ -60,7 +60,7 @@ The backbone is the LightYolo-SSO width-0.6 model. Exit branches use global aver
 Adaptive-LightYolo-SSO/
 ├── cfg/                                # Model configurations
 │   └── training/
-│       └── wsn_yolo_paper2.yaml        # LightYolo-SSO backbone (width 0.6)
+│       └── yolo_wsn_sso_optimized.yaml        # LightYolo-SSO backbone (width 0.6)
 ├── data/                               # Dataset configs
 │   └── wsn_dataset.yaml
 ├── models/                             # Model implementations
@@ -123,7 +123,7 @@ The backbone is initialized from the trained LightYolo-SSO weights, then the exi
 
 ```bash
 python train_early_exit.py \
-    --cfg cfg/training/wsn_yolo_paper2.yaml \
+    --cfg cfg/training/yolo_wsn_sso_optimized.yaml \
     --data data/wsn_dataset.yaml \
     --init-weights runs/train/Updated_wsn_sso_transfer/weights/best.pt \
     --epochs 150 \
@@ -141,7 +141,7 @@ Exit branches are placed at layers 14 and 21. Training uses AdamW with cosine an
 ```bash
 python detect_early_exit.py \
     --weights runs/EarlyExit_PaperB_23rdMay2026/early_exit_20260523_190210/best.pt \
-    --cfg cfg/training/wsn_yolo_paper2.yaml \
+    --cfg cfg/training/yolo_wsn_sso_optimized.yaml \
     --source path/to/images \
     --img-size 256
 ```
@@ -151,7 +151,7 @@ python detect_early_exit.py \
 ```bash
 python test_early_exit.py \
     --weights runs/EarlyExit_PaperB_23rdMay2026/early_exit_20260523_190210/best.pt \
-    --cfg cfg/training/wsn_yolo_paper2.yaml \
+    --cfg cfg/training/yolo_wsn_sso_optimized.yaml \
     --data data/wsn_dataset.yaml
 ```
 
