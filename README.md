@@ -8,22 +8,9 @@ An adaptive inference framework that extends the SSO-optimized [LightYolo-SSO](h
 
 The model is a single trained network that runs in two modes. With early exit enabled it terminates inference early for confident samples; with early exit disabled it runs the full network as a baseline reference. Both modes share the same weights.
 
-## Key Results
+## Overview
 
-Measured on the 3,109-sample IBRL test set, one sample at a time.
-
-| Metric | Adaptive (early exit on) | Full depth (early exit off) |
-|--------|--------------------------|------------------------------|
-| Accuracy | 99.55% | 99.52% |
-| Precision | 99.66% | 99.61% |
-| Recall | 99.66% | 99.66% |
-| F1-score | 99.66% | 99.64% |
-| Average compute | 92.2 M MACs | 261.2 M MACs |
-| Cost reduction | **64.7%** | — |
-
-- Total parameters: **1,395,540** (1,370,478 backbone + 25,062 exit branches, a **1.8% overhead**)
-- Per-sample exit distribution: **98.6%** at Exit 1, **0.7%** at Exit 2, **0.7%** at the full network
-- Energy and latency reduce in proportion to the compute reduction under standard linear-scaling assumptions. These are FLOP-proportional estimates; hardware-measured energy is planned future work.
+The network has early-exit branches after its first stages. A confident, easy sample leaves at the first exit and skips the rest of the network. Only uncertain samples continue to deeper exits or the full network. The exit branches add very few parameters, and compute savings are measured in operations. Results are being updated as the work continues, so detailed figures are not listed here.
 
 ## Architecture
 
@@ -32,23 +19,23 @@ Input Heatmap (256×256)
         │
         ▼
 ┌──────────────────────────────┐
-│  Stage 1 (Layers 0-14)       │──► Exit 1 (θ₁ = 0.90) ──► 98.6% of samples
-│  64-channel feature, 32×32   │    branch: 2,146 params
-│                              │    path cost: 181.5 M FLOPs (34.8%)
+│  Stage 1 (Layers 0-14)       │──► Exit 1 (θ₁ = 0.90) ──► most easy samples
+│  64-channel feature, 32×32   │    small exit branch
+│                              │    cost grows with depth
 └──────────────────────────────┘
         │
         ▼
 ┌──────────────────────────────┐
-│  Stage 2 (Layers 15-21)      │──► Exit 2 (θ₂ = 0.85) ──► 0.7% of samples
-│  120-channel feature, 16×16  │    branch: 7,874 params
-│                              │    path cost: 239.9 M FLOPs (45.9%)
+│  Stage 2 (Layers 15-21)      │──► Exit 2 (θ₂ = 0.85) ──► harder samples
+│  120-channel feature, 16×16  │    small exit branch
+│                              │    cost grows with depth
 └──────────────────────────────┘
         │
         ▼
 ┌──────────────────────────────┐
-│  Stage 3 (Layers 22-end)     │──► Final Classifier ──► 0.7% of samples
-│  232-channel feature         │    head: 15,042 params
-│                              │    path cost: 522.4 M FLOPs (100%)
+│  Stage 3 (Layers 22-end)     │──► Final Classifier ──► harder samples
+│  232-channel feature         │    classifier head
+│                              │    cost grows with depth
 └──────────────────────────────┘
 ```
 
@@ -157,38 +144,15 @@ python test_early_exit.py \
 
 ## Threshold Configurations
 
-Measured by re-running inference at different thresholds on the trained model. Accuracy stays essentially flat while the exit distribution and cost shift.
-
-| Configuration | θ₁ | θ₂ | Accuracy | Cost Reduction |
-|---------------|-----|-----|----------|----------------|
-| Aggressive | 0.80 | 0.75 | 99.55% | 65.0% |
-| **Default** | **0.90** | **0.85** | **99.55%** | **64.7%** |
-| Conservative | 0.95 | 0.90 | 99.55% | 64.5% |
-
-Tightening the thresholds beyond the conservative setting routes more samples to the deeper exits while accuracy stays at 99.52% to 99.55%, confirming that all three exit points are functional.
+The confidence thresholds at each exit control how many samples leave early. Looser thresholds exit more samples early, and tighter thresholds send more samples to the deeper exits. Use `test_early_exit.py` to try different settings.
 
 ## Training Behavior
 
-Training converged smoothly over 150 epochs with no overfitting. The model reached high accuracy within the first ten epochs, reflecting the backbone transfer from LightYolo-SSO, then settled to a stable plateau.
-
-| Checkpoint | Train Acc | Val Acc |
-|------------|-----------|---------|
-| Epoch 1 | 98.25% | ~99.2% |
-| Best (Epoch 72) | 99.77% | 99.74% |
-| Final (Epoch 150) | 99.94% | 99.68% |
-
-The reported test results use the best checkpoint at `early_exit_20260523_190210/best.pt`.
+The model is trained for 150 epochs, starting from the LightYolo-SSO backbone, and the best checkpoint is used for testing.
 
 ## Cost Analysis
 
-Per-exit compute is measured directly from the trained model with a FLOP-profiling tool. Average per-sample cost follows from the per-sample exit distribution.
-
-```
-Average MACs = (0.986 × 90.8) + (0.007 × 120.0) + (0.007 × 261.2) = 92.2 M MACs
-Cost Reduction = (261.2 − 92.2) / 261.2 = 64.7%
-```
-
-This is a FLOP-proportional estimate of efficiency. Absolute energy and latency depend on the deployment platform and are planned as hardware-validation work.
+Per-exit compute is measured from the trained model with a FLOP-profiling tool, and the average cost per sample follows from how many samples leave at each exit. This is a FLOP-proportional estimate of efficiency. Absolute energy and latency depend on the deployment platform and are planned as hardware-validation work.
 
 ## Related Work
 
