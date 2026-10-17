@@ -4,7 +4,7 @@
 [![PyTorch](https://img.shields.io/badge/PyTorch-1.11-ee4c2c.svg)](https://pytorch.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-An adaptive inference framework that extends the SSO-optimized [LightYolo-SSO](https://github.com/mh-masum6875/-LightYolo-SSO) with dynamic early exit capability for energy-efficient anomaly detection in resource-constrained Wireless Sensor Networks. Based on [YOLOv7](https://github.com/WongKinYiu/yolov7).
+An adaptive inference framework that extends the SSO-optimized [LightYolo-SSO](https://github.com/mh-masum6875/LightYolo-SSO) with dynamic early exit capability for energy-efficient anomaly detection in resource-constrained Wireless Sensor Networks. Based on [YOLOv7](https://github.com/WongKinYiu/yolov7).
 
 The model is a single trained network that runs in two modes. With early exit enabled it terminates inference early for confident samples; with early exit disabled it runs the full network as a baseline reference. Both modes share the same weights.
 
@@ -195,7 +195,7 @@ This is a FLOP-proportional estimate of efficiency. Absolute energy and latency 
 This project builds upon:
 
 1. **Our Review Paper:** [Toward Efficient and Accurate Anomaly Detection in Wireless Sensor Networks: A Review](https://ieeexplore.ieee.org/document/11218714) - IEEE Sensors Journal, 2025
-2. **Our LightYolo-SSO:** [LightYolo-SSO](https://github.com/mh-masum6875/-LightYolo-SSO) - SSO-optimized lightweight detection backbone
+2. **Our LightYolo-SSO:** [LightYolo-SSO](https://github.com/mh-masum6875/LightYolo-SSO) - SSO-optimized lightweight detection backbone
 3. **YOLOv7:** [WongKinYiu/yolov7](https://github.com/WongKinYiu/yolov7)
 
 ## Citation
